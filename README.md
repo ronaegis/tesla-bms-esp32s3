@@ -10,7 +10,8 @@ NOTE: The original work was done by [collin80](https://github.com/collin80/Tesla
 # Hardware
 You can obtain the ESP32 board at Amazon and Aliexpress. There are various links on [this page](https://github.com/Xinyuan-LilyGO/T-Display-S3).
 
-For connecting to the BMS on the Tesla modules, you will need a bunch of MOLEX connectors like [these ones](https://www.mouser.com/ProductDetail/Molex/15-97-5101) and the [connector pins](https://www.mouser.com/ProductDetail/Molex/39-00-0038-Cut-Strip).
+For connecting to the BMS on the Tesla modules, you will need a bunch of 15-97-5101 MOLEX connectors like [these ones](https://www.mouser.com/ProductDetail/Molex/15-97-5101?qs=orQbfqMgxgWsNUauKukokQ%3D%3D&countrycode=US&currencycode=USD)
+and the [39-00-0038 connector pins](https://www.mouser.com/ProductDetail/Molex/39-00-0038-Cut-Strip?qs=Y0K5pK5Q%2FZHkDlTWB1p%2F0g%3D%3D&countrycode=US&currencycode=USD).
 
 # Software installation
 - Install the latest version of the [Arduino IDE](https://www.arduino.cc/en/software)
