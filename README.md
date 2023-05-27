@@ -1,4 +1,7 @@
 # BMS for Tesla module using an ESP32-S3
+
+![BMS in action](./images/bms.jpg)
+
 This software allows you to use the included BMS on Tesla battery modules from Model S and X (2012-2020) using a cheap ESP32 arduino (T-Display-S3).
 
 It currently shows a few metrics on the attached display, like voltage, state of charge and balance status.
