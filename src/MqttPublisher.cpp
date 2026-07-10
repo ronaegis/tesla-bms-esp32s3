@@ -1,5 +1,11 @@
 #include "MqttPublisher.h"
 
+#ifndef USE_MQTT
+#define USE_MQTT 0
+#endif
+
+#if USE_MQTT
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
@@ -448,3 +454,5 @@ void MqttPublisher::publishModuleDiscovery(int index) {
 
   Logger::debug("MqttPublisher: module %d discovery published", index);
 }
+
+#endif  // USE_MQTT

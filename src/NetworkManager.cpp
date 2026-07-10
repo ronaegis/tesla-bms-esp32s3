@@ -1,5 +1,11 @@
 #include "NetworkManager.h"
 
+#ifndef USE_MQTT
+#define USE_MQTT 0
+#endif
+
+#if USE_MQTT
+
 #include <WiFi.h>
 
 #include "Logger.h"
@@ -87,3 +93,5 @@ bool NetworkManager::isConnected() const {
 int NetworkManager::rssi() const {
   return isConnected() ? WiFi.RSSI() : 0;
 }
+
+#endif  // USE_MQTT
