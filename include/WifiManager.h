@@ -1,9 +1,9 @@
-#ifndef NETWORK_MANAGER_H_
-#define NETWORK_MANAGER_H_
+#ifndef WIFI_MANAGER_H_
+#define WIFI_MANAGER_H_
 
 #include <stdint.h>
 
-class NetworkManager {
+class WifiManager {
 public:
   enum class State { Disabled, Idle, Connecting, Connected, Failed };
 
@@ -25,4 +25,4 @@ private:
   uint32_t backoffMs_ = 0;
 };
 
-#endif // NETWORK_MANAGER_H_
+#endif // WIFI_MANAGER_H_

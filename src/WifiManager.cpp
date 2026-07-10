@@ -1,4 +1,4 @@
-#include "NetworkManager.h"
+#include "WifiManager.h"
 
 #ifndef USE_MQTT
 #define USE_MQTT 0
@@ -15,7 +15,7 @@ namespace {
 constexpr uint32_t kConnectTimeoutMs = 20000;
 }
 
-void NetworkManager::begin(const char *ssid, const char *password) {
+void WifiManager::begin(const char *ssid, const char *password) {
   ssid_ = ssid;
   password_ = password;
   backoffMs_ = WIFI_RECONNECT_BACKOFF_MIN_MS;
@@ -23,19 +23,19 @@ void NetworkManager::begin(const char *ssid, const char *password) {
   WiFi.setAutoReconnect(false);
   WiFi.persistent(false);
   state_ = State::Idle;
-  Logger::info("NetworkManager: WiFi STA mode, target SSID '%s'", ssid_);
+  Logger::info("WifiManager: WiFi STA mode, target SSID '%s'", ssid_);
   startConnect(millis());
 }
 
-void NetworkManager::startConnect(uint32_t nowMs) {
-  Logger::debug("NetworkManager: connecting to '%s'", ssid_);
+void WifiManager::startConnect(uint32_t nowMs) {
+  Logger::debug("WifiManager: connecting to '%s'", ssid_);
   WiFi.disconnect(false, true);
   WiFi.begin(ssid_, password_);
   attemptStartedMs_ = nowMs;
   state_ = State::Connecting;
 }
 
-void NetworkManager::loop(uint32_t nowMs) {
+void WifiManager::loop(uint32_t nowMs) {
   if (state_ == State::Disabled) {
     return;
   }
@@ -47,12 +47,12 @@ void NetworkManager::loop(uint32_t nowMs) {
       if (wlStatus == WL_CONNECTED) {
         backoffMs_ = WIFI_RECONNECT_BACKOFF_MIN_MS;
         state_ = State::Connected;
-        Logger::info("NetworkManager: connected, IP=%s, RSSI=%d",
+        Logger::info("WifiManager: connected, IP=%s, RSSI=%d",
                      WiFi.localIP().toString().c_str(), WiFi.RSSI());
         return;
       }
       if ((nowMs - attemptStartedMs_) >= kConnectTimeoutMs) {
-        Logger::warn("NetworkManager: connect timed out, backing off %u ms", backoffMs_);
+        Logger::warn("WifiManager: connect timed out, backing off %u ms", backoffMs_);
         WiFi.disconnect(false, true);
         nextAttemptMs_ = nowMs + backoffMs_;
         backoffMs_ = backoffMs_ * 2;
@@ -66,7 +66,7 @@ void NetworkManager::loop(uint32_t nowMs) {
 
     case State::Connected: {
       if (wlStatus != WL_CONNECTED) {
-        Logger::warn("NetworkManager: link lost (status=%d), reconnecting", wlStatus);
+        Logger::warn("WifiManager: link lost (status=%d), reconnecting", wlStatus);
         nextAttemptMs_ = nowMs;
         state_ = State::Failed;
       }
@@ -86,11 +86,11 @@ void NetworkManager::loop(uint32_t nowMs) {
   }
 }
 
-bool NetworkManager::isConnected() const {
+bool WifiManager::isConnected() const {
   return state_ == State::Connected && WiFi.status() == WL_CONNECTED;
 }
 
-int NetworkManager::rssi() const {
+int WifiManager::rssi() const {
   return isConnected() ? WiFi.RSSI() : 0;
 }
 

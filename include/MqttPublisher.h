@@ -3,10 +3,13 @@
 
 #include <stdint.h>
 
+#include <WiFiClient.h>
+
 #include "BMSModuleManager.h"
 
-// Forward declarations to keep PubSubClient out of the header.
-class WiFiClient;
+// Forward declaration to keep PubSubClient out of the header.
+// WiFiClient cannot be forward-declared: on Arduino-ESP32 core 3.x it is a
+// typedef of NetworkClient, not a class.
 class PubSubClient;
 
 class MqttPublisher {

@@ -605,7 +605,7 @@ tesla-bms-esp32s3/
 │   ├── Logger.cpp              # Logging system
 │   ├── SerialConsole.cpp       # Debug console
 │   ├── factory_gui.cpp         # LCD GUI interface
-│   ├── NetworkManager.cpp      # WiFi lifecycle (non-blocking, backoff)
+│   ├── WifiManager.cpp         # WiFi lifecycle (non-blocking, backoff)
 │   ├── MqttPublisher.cpp       # MQTT + Home Assistant discovery
 │   └── font_Alibaba.c          # Display font data
 ├── include/                    # Header files (PlatformIO)
@@ -619,7 +619,7 @@ tesla-bms-esp32s3/
 │   ├── Logger.h                # Logging header
 │   ├── SerialConsole.h         # Console header
 │   ├── factory_gui.h           # GUI header
-│   ├── NetworkManager.h        # WiFi lifecycle header
+│   ├── WifiManager.h           # WiFi lifecycle header
 │   ├── MqttPublisher.h         # MQTT publisher header
 │   ├── secrets.example.h       # Template (committed)
 │   └── secrets.h               # Local creds (gitignored)

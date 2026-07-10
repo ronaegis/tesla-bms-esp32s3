@@ -28,7 +28,7 @@ HardwareSerial SERIALBMS(0);
 #endif
 
 #if USE_MQTT
-#include "NetworkManager.h"
+#include "WifiManager.h"
 #include "MqttPublisher.h"
 #include "secrets.h"
 #endif
@@ -39,7 +39,7 @@ EEPROMSettings settings;
 
 #if USE_MQTT
 namespace {
-NetworkManager networkManager;
+WifiManager wifiManager;
 MqttPublisher mqttPublisher;
 }
 #endif
@@ -442,14 +442,14 @@ static void handleGuiUpdates(AppContext &context, uint32_t now) {
 
 #if USE_MQTT
     static char netStatus[64];
-    const bool wifiUp = networkManager.isConnected();
+    const bool wifiUp = wifiManager.isConnected();
     const bool mqttUp = mqttPublisher.isConnected();
     if (!wifiUp) {
       snprintf(netStatus, sizeof(netStatus), "net: wifi down");
     } else if (!mqttUp) {
-      snprintf(netStatus, sizeof(netStatus), "net: wifi %ddBm | mqtt --", networkManager.rssi());
+      snprintf(netStatus, sizeof(netStatus), "net: wifi %ddBm | mqtt --", wifiManager.rssi());
     } else {
-      snprintf(netStatus, sizeof(netStatus), "net: wifi %ddBm | mqtt ok", networkManager.rssi());
+      snprintf(netStatus, sizeof(netStatus), "net: wifi %ddBm | mqtt ok", wifiManager.rssi());
     }
     lv_msg_send(MSG_NET_STATUS, netStatus);
 #endif
@@ -515,7 +515,7 @@ void setup() {
   if (WIFI_SSID[0] == '\0') {
     Logger::info("WIFI_SSID empty in secrets.h — networking disabled");
   } else {
-    networkManager.begin(WIFI_SSID, WIFI_PASSWORD);
+    wifiManager.begin(WIFI_SSID, WIFI_PASSWORD);
     if (MQTT_HOST[0] == '\0') {
       Logger::info("MQTT_HOST empty in secrets.h — MQTT disabled (WiFi only)");
     } else {
@@ -549,8 +549,8 @@ void loop() {
   handleGuiUpdates(appContext, now);
 
 #if USE_MQTT
-  networkManager.loop(now);
-  mqttPublisher.loop(now, networkManager.isConnected());
+  wifiManager.loop(now);
+  mqttPublisher.loop(now, wifiManager.isConnected());
 
   if (mqttPublisher.isConnected() && now >= appContext.nextMqttPublish) {
     const auto &telemetry = bms.getTelemetry();
